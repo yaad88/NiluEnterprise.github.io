@@ -357,7 +357,7 @@ if(document.getElementById('side2').checked){
 }
 
 var linerpaper = document.getElementById('linerpaperRate').value;
-linerpaper = parseFloat(linerpaper)*linerside;
+linerpaper = (parseFloat(linerpaper))*linerside;
 
 var midpaperRate=document.getElementById('midpaperRate').value;
 midpaperRate=parseFloat(midpaperRate);
@@ -392,7 +392,7 @@ document.getElementById('finalcalculation').innerHTML=
   <div class="card bg-warning text-white text-center p-3 mt-3">
       <blockquote class="blockquote mb-0">
       <p style="text-align:center; color:white"> TOTAL COST = ${totalcost.toFixed(3)} Tk. </p>
-			<p style="text-align:center; color:white"> TOTAL PRICE WITH ${prof}% Profit Margin = ${costwithprofit.toFixed(3)} Tk. </p>
+			<p style="text-align:center; color:white"> TOTAL PRICE WITH ${prof}% Profit Margin = ${costwithprofit.toFixed(3)} Tk... </p>
 
 
       </blockquote>
