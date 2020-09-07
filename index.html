@@ -1,7 +1,5 @@
 
-<?php
-$creds = file_get_contents("controller/creds.txt");
-?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -34,9 +32,17 @@ $creds = file_get_contents("controller/creds.txt");
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <!--===============================================================================================-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mootools/1.6.0/mootools-core.min.js"></script>
+
+
+
 </head>
 <body>
-	<div id="cred" style="display:none"><?php echo $creds; ?></div>
+
+
+
+
+
 
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
@@ -45,6 +51,7 @@ $creds = file_get_contents("controller/creds.txt");
 				<span class="login100-form-title p-b-49">
 					Bangaldesh Packaging LTD
 				</span>
+				<div id="csvResponse" style="display:block"></div>
 
 				<div class="container-login100-form-btn m-b-23">
 					<div class="wrap-login100-form-btn">
@@ -102,7 +109,7 @@ $creds = file_get_contents("controller/creds.txt");
 				<div class="container-login100-form-btn" style="margin-top:10px">
 					<div class="wrap-login100-form-btn">
 						<div class="login100-form-bgbtn"></div>
-						<button class="login100-form-btn" onclick="window.location.href='signup.php'">
+						<button class="login100-form-btn" onclick="window.location.href='signup.html'">
 							Sign Up
 						</button>
 					</div>
@@ -128,47 +135,60 @@ $creds = file_get_contents("controller/creds.txt");
     }
 });
  function login(){
-	 var data = document.getElementById('cred');
-	 data = data.textContent;
-	 console.log(data);
-	 data = data.split("!!~~*~~!!");
-	 console.log(data);
+	 window.addEvent("domready",function(){
+			 //Creating a new AJAX request that will request 'test.csv' from the current directory
+			 var csvRequest = new Request({
+					 url:"controller/creds.txt",
+					 onSuccess:function(response){
+							 //The response text is available in the 'response' variable
+							 //Set the value of the textarea with the id 'csvResponse' to the response
+							 $("csvResponse").value = response;
+							 console.log("full mail",response);
+							 var data = response;
 
-	 var mail = document.getElementById('mail').value;
-	 var psw = document.getElementById('psw').value;
-	 console.log(mail,psw);
+							 console.log(data);
+							 data = data.split("!!~~*~~!!");
+							 console.log(data);
 
-	 var credmail = data[0];
-	 var credpsw = data[1];
-	 if(credmail.localeCompare(mail)==0){
-		 if(credpsw.localeCompare(psw)==0){
-			 window.location.href = 'measurement.php';
-		 }
-		 else{
-			 console.log("pass mile na");
-			 document.getElementById('errormsg').innerHTML=
+							 var mail = document.getElementById('mail').value;
+							 var psw = document.getElementById('psw').value;
+							 console.log(mail,psw);
 
-	     `<div class="card bg-danger text-white text-center p-3">
-	         <blockquote class="blockquote mb-0">
-	         <p style="text-align:center; color:white">PASSWORD DOESN'T MATCH</p>
+							 var credmail = data[0];
+							 var credpsw = data[1];
+							 if(credmail.localeCompare(mail)==0){
+								 if(credpsw.localeCompare(psw)==0){
+									 window.location.href = 'measurement.html';
+								 }
+								 else{
+									 console.log("pass mile na");
+									 document.getElementById('errormsg').innerHTML=
 
-
-	         </blockquote>
-	       </div>`;
-		 }
-	 }
-	 else{
-		 console.log("mail mile na");
-		 document.getElementById('errormsg').innerHTML=
-
-     `<div class="card bg-danger text-white text-center p-3">
-         <blockquote class="blockquote mb-0">
-         <p style="text-align:center; color:white">MAIL DOESN'T MATCH</p>
+							     `<div class="card bg-danger text-white text-center p-3">
+							         <blockquote class="blockquote mb-0">
+							         <p style="text-align:center; color:white">PASSWORD DOESN'T MATCH</p>
 
 
-         </blockquote>
-       </div>`;
-	 }
+							         </blockquote>
+							       </div>`;
+								 }
+							 }
+							 else{
+								 console.log("mail mile na");
+								 document.getElementById('errormsg').innerHTML=
+
+						     `<div class="card bg-danger text-white text-center p-3">
+						         <blockquote class="blockquote mb-0">
+						         <p style="text-align:center; color:white">MAIL DOESN'T MATCH</p>
+
+
+						         </blockquote>
+						       </div>`;
+							 }
+					 }
+			 }).send(); //Don't forget to send our request!
+	 });
+
  }
 
 </script>
